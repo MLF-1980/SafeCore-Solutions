@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SafeCore Solutions</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>SafeCore Solutions</h1>
+      <p>Gestión HSE · Personal · Incidentes · IPER</p>
+    </div>
+    <div class="topbar-actions">
+      <a href="/docs" target="_blank">API / Docs</a>
+      <a href="/api/export/incidents.csv">Exportar incidentes</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Tablero</h2>
+        <label>Período
+          <select id="period" onchange="loadDashboard()">
+            <option value="ALL">Histórico</option>
+            <option value="2026-08">Agosto 2026</option>
+            <option value="2026-07">Julio 2026</option>
+          </select>
+        </label>
+      </div>
+      <div id="metrics" class="metrics"></div>
+      <div class="columns">
+        <div><h3>Incidentes por tipo</h3><div id="byType"></div></div>
+        <div><h3>Incidentes por gravedad</h3><div id="bySeverity"></div></div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="panel">
+        <h2>Registrar personal</h2>
+        <form id="personnelForm">
+          <input name="full_name" placeholder="Nombre completo" required>
+          <input name="dni" placeholder="DNI" required>
+          <input name="company" placeholder="Empresa / Contratista" required>
+          <input name="medical_clearance" placeholder="Apto médico" required>
+          <input name="status" placeholder="Estado" value="Apto" required>
+          <button>Guardar personal</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Registrar incidente</h2>
+        <form id="incidentForm">
+          <input type="date" name="incident_date" required>
+          <input name="project_name" placeholder="Proyecto / Obra" required>
+          <input name="injured_name" placeholder="Afectado" required>
+          <input name="person_type" placeholder="Propio / Tercero / Contratista" required>
+          <input name="severity_type" placeholder="Gravedad" required>
+          <input type="number" name="lost_days" min="0" value="0" placeholder="Días perdidos">
+          <textarea name="description" placeholder="Descripción" required></textarea>
+          <button>Guardar incidente</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header"><h2>Importar incidentes desde Excel</h2></div>
+      <form id="excelForm" class="inline-form">
+        <input type="file" name="file" accept=".xlsx,.xls" required>
+        <button>Importar Excel</button>
+      </form>
+      <p class="hint">Columnas: Fecha, Proyecto, Afectado, Tipo, Descripción, Días Perdidos, Gravedad.</p>
+    </section>
+
+    <section class="grid-2">
+      <div class="panel"><h2>Personal registrado</h2><div class="table-wrap"><table><thead><tr><th>Nombre</th><th>DNI</th><th>Empresa</th><th>Estado</th></tr></thead><tbody id="personnelTable"></tbody></table></div></div>
+      <div class="panel"><h2>Incidentes registrados</h2><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Proyecto</th><th>Afectado</th><th>Gravedad</th><th>Días</th></tr></thead><tbody id="incidentTable"></tbody></table></div></div>
+    </section>
+
+    <p id="message" class="message"></p>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
